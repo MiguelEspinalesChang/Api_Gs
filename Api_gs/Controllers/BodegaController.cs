@@ -9,8 +9,11 @@ namespace Api_gs.Controllers
 {
     public class BodegaController : ApiController
     {
-
-
+       
+        public string Get()
+        {
+            return "Trapitoooos";
+        }
     }
 
 
