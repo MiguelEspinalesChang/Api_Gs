@@ -4,6 +4,8 @@ Api_Gs/obj
 packages
 .vs
 Api_gs/Web.config
+Api_gs/Web.Debug.config
+Api_gs/Web.Release.config
 AccesoADatos/bin
 AccesoADatos/obj
 AccesoADatos/Config
