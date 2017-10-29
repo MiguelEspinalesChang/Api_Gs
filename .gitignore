@@ -1,0 +1,9 @@
+# dependencies
+Api_Gs/bin
+Api_Gs/obj
+packages
+.vs
+Api_gs/Web.config
+AccesoADatos/bin
+AccesoADatos/obj
+AccesoADatos/Config

@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GeneralStore_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bodega">
+          <Key>
+            <PropertyRef Name="IdBodega" />
+          </Key>
+          <Property Name="IdBodega" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar(max)" />
+          <Property Name="Direccion" Type="varchar" MaxLength="500" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Herramienta">
+          <Key>
+            <PropertyRef Name="IdHerramienta" />
+          </Key>
+          <Property Name="IdHerramienta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="Herramienta_Bodega">
+          <Key>
+            <PropertyRef Name="IdHerramientaBodega" />
+          </Key>
+          <Property Name="IdHerramientaBodega" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdHerramienta" Type="int" Nullable="false" />
+          <Property Name="IdBodega" Type="int" Nullable="false" />
+          <Property Name="Ubicacion" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="Unidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="IdItem" />
+          </Key>
+          <Property Name="IdItem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ubicacion" Type="varchar" MaxLength="20" />
+          <Property Name="Cantidad" Type="real" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar(max)" Nullable="false" />
+          <Property Name="UniCosDolar" Type="real" Nullable="false" />
+          <Property Name="UniCosCordo" Type="real" Nullable="false" />
+          <Property Name="TotalCosDolar" Type="real" Nullable="false" />
+          <Property Name="TotalCosCordo" Type="real" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Item_Bodega">
+          <Key>
+            <PropertyRef Name="IdItemBodega" />
+          </Key>
+          <Property Name="IdItemBodega" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdItem" Type="int" Nullable="false" />
+          <Property Name="IdBodega" Type="int" Nullable="false" />
+          <Property Name="Ubicacion" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="Unidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TasaCambio">
+          <Key>
+            <PropertyRef Name="IdTasaCambio" />
+          </Key>
+          <Property Name="IdTasaCambio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaInicio" Type="datetime" Nullable="false" />
+          <Property Name="FechaFin" Type="datetime" />
+          <Property Name="Validez" Type="bit" Nullable="false" />
+          <Property Name="Valor" Type="real" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Herramien__IdBod__1B0907CE">
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="1" />
+          <End Role="Herramienta_Bodega" Type="Self.Herramienta_Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bodega">
+              <PropertyRef Name="IdBodega" />
+            </Principal>
+            <Dependent Role="Herramienta_Bodega">
+              <PropertyRef Name="IdBodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Herramien__IdHer__1A14E395">
+          <End Role="Herramienta" Type="Self.Herramienta" Multiplicity="1" />
+          <End Role="Herramienta_Bodega" Type="Self.Herramienta_Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Herramienta">
+              <PropertyRef Name="IdHerramienta" />
+            </Principal>
+            <Dependent Role="Herramienta_Bodega">
+              <PropertyRef Name="IdHerramienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item_Bode__IdBod__15502E78">
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="1" />
+          <End Role="Item_Bodega" Type="Self.Item_Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bodega">
+              <PropertyRef Name="IdBodega" />
+            </Principal>
+            <Dependent Role="Item_Bodega">
+              <PropertyRef Name="IdBodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item_Bode__IdIte__145C0A3F">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="Item_Bodega" Type="Self.Item_Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="IdItem" />
+            </Principal>
+            <Dependent Role="Item_Bodega">
+              <PropertyRef Name="IdItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GeneralStore_ModelStoreContainer">
+          <EntitySet Name="Bodega" EntityType="Self.Bodega" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Herramienta" EntityType="Self.Herramienta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Herramienta_Bodega" EntityType="Self.Herramienta_Bodega" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Item_Bodega" EntityType="Self.Item_Bodega" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TasaCambio" EntityType="Self.TasaCambio" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Herramien__IdBod__1B0907CE" Association="Self.FK__Herramien__IdBod__1B0907CE">
+            <End Role="Bodega" EntitySet="Bodega" />
+            <End Role="Herramienta_Bodega" EntitySet="Herramienta_Bodega" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Herramien__IdHer__1A14E395" Association="Self.FK__Herramien__IdHer__1A14E395">
+            <End Role="Herramienta" EntitySet="Herramienta" />
+            <End Role="Herramienta_Bodega" EntitySet="Herramienta_Bodega" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item_Bode__IdBod__15502E78" Association="Self.FK__Item_Bode__IdBod__15502E78">
+            <End Role="Bodega" EntitySet="Bodega" />
+            <End Role="Item_Bodega" EntitySet="Item_Bodega" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item_Bode__IdIte__145C0A3F" Association="Self.FK__Item_Bode__IdIte__145C0A3F">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="Item_Bodega" EntitySet="Item_Bodega" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GeneralStore_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bodega">
+          <Key>
+            <PropertyRef Name="IdBodega" />
+          </Key>
+          <Property Name="IdBodega" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Herramienta_Bodega" Relationship="Self.FK__Herramien__IdBod__1B0907CE" FromRole="Bodega" ToRole="Herramienta_Bodega" />
+          <NavigationProperty Name="Item_Bodega" Relationship="Self.FK__Item_Bode__IdBod__15502E78" FromRole="Bodega" ToRole="Item_Bodega" />
+        </EntityType>
+        <EntityType Name="Herramienta">
+          <Key>
+            <PropertyRef Name="IdHerramienta" />
+          </Key>
+          <Property Name="IdHerramienta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Herramienta_Bodega" Relationship="Self.FK__Herramien__IdHer__1A14E395" FromRole="Herramienta" ToRole="Herramienta_Bodega" />
+        </EntityType>
+        <EntityType Name="Herramienta_Bodega">
+          <Key>
+            <PropertyRef Name="IdHerramientaBodega" />
+          </Key>
+          <Property Name="IdHerramientaBodega" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdHerramienta" Type="Int32" Nullable="false" />
+          <Property Name="IdBodega" Type="Int32" Nullable="false" />
+          <Property Name="Ubicacion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Unidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bodega" Relationship="Self.FK__Herramien__IdBod__1B0907CE" FromRole="Herramienta_Bodega" ToRole="Bodega" />
+          <NavigationProperty Name="Herramienta" Relationship="Self.FK__Herramien__IdHer__1A14E395" FromRole="Herramienta_Bodega" ToRole="Herramienta" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="IdItem" />
+          </Key>
+          <Property Name="IdItem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ubicacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad" Type="Single" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UniCosDolar" Type="Single" Nullable="false" />
+          <Property Name="UniCosCordo" Type="Single" Nullable="false" />
+          <Property Name="TotalCosDolar" Type="Single" Nullable="false" />
+          <Property Name="TotalCosCordo" Type="Single" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Item_Bodega" Relationship="Self.FK__Item_Bode__IdIte__145C0A3F" FromRole="Item" ToRole="Item_Bodega" />
+        </EntityType>
+        <EntityType Name="Item_Bodega">
+          <Key>
+            <PropertyRef Name="IdItemBodega" />
+          </Key>
+          <Property Name="IdItemBodega" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdItem" Type="Int32" Nullable="false" />
+          <Property Name="IdBodega" Type="Int32" Nullable="false" />
+          <Property Name="Ubicacion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Unidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bodega" Relationship="Self.FK__Item_Bode__IdBod__15502E78" FromRole="Item_Bodega" ToRole="Bodega" />
+          <NavigationProperty Name="Item" Relationship="Self.FK__Item_Bode__IdIte__145C0A3F" FromRole="Item_Bodega" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="TasaCambio">
+          <Key>
+            <PropertyRef Name="IdTasaCambio" />
+          </Key>
+          <Property Name="IdTasaCambio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaFin" Type="DateTime" Precision="3" />
+          <Property Name="Validez" Type="Boolean" Nullable="false" />
+          <Property Name="Valor" Type="Single" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Herramien__IdBod__1B0907CE">
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="1" />
+          <End Role="Herramienta_Bodega" Type="Self.Herramienta_Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bodega">
+              <PropertyRef Name="IdBodega" />
+            </Principal>
+            <Dependent Role="Herramienta_Bodega">
+              <PropertyRef Name="IdBodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item_Bode__IdBod__15502E78">
+          <End Role="Bodega" Type="Self.Bodega" Multiplicity="1" />
+          <End Role="Item_Bodega" Type="Self.Item_Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bodega">
+              <PropertyRef Name="IdBodega" />
+            </Principal>
+            <Dependent Role="Item_Bodega">
+              <PropertyRef Name="IdBodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Herramien__IdHer__1A14E395">
+          <End Role="Herramienta" Type="Self.Herramienta" Multiplicity="1" />
+          <End Role="Herramienta_Bodega" Type="Self.Herramienta_Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Herramienta">
+              <PropertyRef Name="IdHerramienta" />
+            </Principal>
+            <Dependent Role="Herramienta_Bodega">
+              <PropertyRef Name="IdHerramienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Item_Bode__IdIte__145C0A3F">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="Item_Bodega" Type="Self.Item_Bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="IdItem" />
+            </Principal>
+            <Dependent Role="Item_Bodega">
+              <PropertyRef Name="IdItem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GeneralStore_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bodegas" EntityType="Self.Bodega" />
+          <EntitySet Name="Herramientas" EntityType="Self.Herramienta" />
+          <EntitySet Name="Herramienta_Bodega" EntityType="Self.Herramienta_Bodega" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="Item_Bodega" EntityType="Self.Item_Bodega" />
+          <EntitySet Name="TasaCambios" EntityType="Self.TasaCambio" />
+          <AssociationSet Name="FK__Herramien__IdBod__1B0907CE" Association="Self.FK__Herramien__IdBod__1B0907CE">
+            <End Role="Bodega" EntitySet="Bodegas" />
+            <End Role="Herramienta_Bodega" EntitySet="Herramienta_Bodega" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item_Bode__IdBod__15502E78" Association="Self.FK__Item_Bode__IdBod__15502E78">
+            <End Role="Bodega" EntitySet="Bodegas" />
+            <End Role="Item_Bodega" EntitySet="Item_Bodega" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Herramien__IdHer__1A14E395" Association="Self.FK__Herramien__IdHer__1A14E395">
+            <End Role="Herramienta" EntitySet="Herramientas" />
+            <End Role="Herramienta_Bodega" EntitySet="Herramienta_Bodega" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Item_Bode__IdIte__145C0A3F" Association="Self.FK__Item_Bode__IdIte__145C0A3F">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="Item_Bodega" EntitySet="Item_Bodega" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GeneralStore_ModelStoreContainer" CdmEntityContainer="GeneralStore_Entities">
+          <EntitySetMapping Name="Bodegas">
+            <EntityTypeMapping TypeName="GeneralStore_Model.Bodega">
+              <MappingFragment StoreEntitySet="Bodega">
+                <ScalarProperty Name="IdBodega" ColumnName="IdBodega" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Herramientas">
+            <EntityTypeMapping TypeName="GeneralStore_Model.Herramienta">
+              <MappingFragment StoreEntitySet="Herramienta">
+                <ScalarProperty Name="IdHerramienta" ColumnName="IdHerramienta" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Herramienta_Bodega">
+            <EntityTypeMapping TypeName="GeneralStore_Model.Herramienta_Bodega">
+              <MappingFragment StoreEntitySet="Herramienta_Bodega">
+                <ScalarProperty Name="IdHerramientaBodega" ColumnName="IdHerramientaBodega" />
+                <ScalarProperty Name="IdHerramienta" ColumnName="IdHerramienta" />
+                <ScalarProperty Name="IdBodega" ColumnName="IdBodega" />
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+                <ScalarProperty Name="Unidad" ColumnName="Unidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="GeneralStore_Model.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="UniCosDolar" ColumnName="UniCosDolar" />
+                <ScalarProperty Name="UniCosCordo" ColumnName="UniCosCordo" />
+                <ScalarProperty Name="TotalCosDolar" ColumnName="TotalCosDolar" />
+                <ScalarProperty Name="TotalCosCordo" ColumnName="TotalCosCordo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Item_Bodega">
+            <EntityTypeMapping TypeName="GeneralStore_Model.Item_Bodega">
+              <MappingFragment StoreEntitySet="Item_Bodega">
+                <ScalarProperty Name="IdItemBodega" ColumnName="IdItemBodega" />
+                <ScalarProperty Name="IdItem" ColumnName="IdItem" />
+                <ScalarProperty Name="IdBodega" ColumnName="IdBodega" />
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+                <ScalarProperty Name="Unidad" ColumnName="Unidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TasaCambios">
+            <EntityTypeMapping TypeName="GeneralStore_Model.TasaCambio">
+              <MappingFragment StoreEntitySet="TasaCambio">
+                <ScalarProperty Name="IdTasaCambio" ColumnName="IdTasaCambio" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="Validez" ColumnName="Validez" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
