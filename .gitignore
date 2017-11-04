@@ -9,3 +9,6 @@ Api_gs/Web.Release.config
 AccesoADatos/bin
 AccesoADatos/obj
 AccesoADatos/Config
+.suo
+vs
+Api_gs/obj/Debug
